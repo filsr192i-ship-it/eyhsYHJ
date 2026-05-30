@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>정보동아리 프로젝트 쇼케이스</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Tailwind 다크모드 설정 활성화
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              light: '#3b82f6',
+              dark: '#60a5fa'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Lucide Icons (아이콘 라이브러리) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* 부드러운 테마 전환 효과 */
+    body {
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col font-sans">
+
+  <!-- 네비게이션 바 -->
+  <nav class="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800 transition-colors">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- 로고 -->
+        <div class="flex items-center space-x-2 cursor-pointer" onclick="scrollToSection('hero')">
+          <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-lg">💡</div>
+          <span class="font-bold text-xl tracking-tight bg-gradient-to-r from-blue-600 to-indigo-500 dark:from-blue-400 dark:to-indigo-300 bg-clip-text text-transparent">
+            알고리즘&코드
+          </span>
+        </div>
+
+        <!-- 메뉴 목록 (데스크톱) -->
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="#about" class="hover:text-blue-500 dark:hover:text-blue-400 transition-colors font-medium">동아리 소개</a>
+          <a href="#projects" class="hover:text-blue-500 dark:hover:text-blue-400 transition-colors font-medium">프로젝트</a>
+          <a href="#guestbook" class="hover:text-blue-500 dark:hover:text-blue-400 transition-colors font-medium">방명록</a>
+        </div>
+
+        <!-- 우측 컨트롤 (테마 스위처 및 모바일 메뉴 버튼) -->
+        <div class="flex items-center space-x-4">
+          <!-- 다크/라이트 토글 버튼 -->
+          <button id="theme-toggle" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:ring-2 hover:ring-blue-400 transition-all focus:outline-none" aria-label="테마 전환">
+            <!-- 해 아이콘 (라이트모드 시 보임) -->
+            <i id="theme-icon-sun" data-lucide="sun" class="w-5 h-5 hidden"></i>
+            <!-- 달 아이콘 (다크모드 시 보임) -->
+            <i id="theme-icon-moon" data-lucide="moon" class="w-5 h-5"></i>
+          </button>
+
+          <!-- 모바일 메뉴 버튼 -->
+          <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 모바일 드롭다운 메뉴 -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 pt-2 pb-4 space-y-2">
+      <a href="#about" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-slate-100 dark:hover:bg-slate-800">동아리 소개</a>
+      <a href="#projects" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-slate-100 dark:hover:bg-slate-800">프로젝트</a>
+      <a href="#guestbook" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-slate-100 dark:hover:bg-slate-800">방명록</a>
+    </div>
+  </nav>
+
+  <!-- 메인 콘텐츠 영역 -->
+  <main class="flex-grow">
+    
+    <!-- 히어로 섹션 -->
+    <section id="hero" class="relative overflow-hidden py-20 md:py-32 flex items-center justify-center bg-gradient-to-b from-blue-50/50 to-transparent dark:from-slate-900/50">
+      <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+        <span class="inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 mb-6">
+          <span class="w-2 h-2 rounded-full bg-blue-600 dark:bg-blue-400 animate-pulse"></span>
+          2026학년도 정보프로젝트 공개
+        </span>
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
+          코드로 세상을 바꾸는<br>
+          <span class="bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 dark:from-blue-400 dark:via-indigo-300 dark:to-purple-400 bg-clip-text text-transparent">
+            우리들의 크리에이티브 공간
+          </span>
+        </h1>
+        <p class="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-10">
+          정보동아리 부원들이 상상력을 현실로 바꾼 창의적인 개발 프로젝트들을 소개합니다. 웹, 앱, AI, 게임까지 다양한 창작물을 만나보세요!
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="#projects" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium shadow-lg shadow-blue-500/20 dark:shadow-blue-950/30 transition-all hover:-translate-y-0.5 text-center">
+            프로젝트 구경하기
+          </a>
+          <a href="#guestbook" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100 font-medium transition-all hover:-translate-y-0.5 text-center">
+            응원글 남기기
+          </a>
+        </div>
+      </div>
+      <!-- 배경 장식 데코 -->
+      <div class="absolute top-1/2 left-1/4 -translate-y-1/2 -translate-x-1/2 w-72 h-72 bg-blue-400/20 dark:bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute top-1/3 right-1/4 -translate-y-1/2 translate-x-1/2 w-96 h-96 bg-indigo-400/20 dark:bg-indigo-600/10 rounded-full blur-3xl pointer-events-none"></div>
+    </section>
+
+    <!-- 동아리 소개 섹션 -->
+    <section id="about" class="py-16 border-t border-slate-100 dark:border-slate-900">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <h2 class="text-3xl font-bold tracking-tight mb-4">우리는 이런 활동을 해요</h2>
+          <p class="text-slate-600 dark:text-slate-400">단순한 코딩 교육을 넘어, 실생활의 문제를 해결하고 새로운 가치를 창출하는 창작을 지향합니다.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- 카드 1 -->
+          <div class="p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-300 group">
+            <div class="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <i data-lucide="code-2" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-3">웹 & 앱 서비스 개발</h3>
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+              사용자 중심의 기획을 통해 실생활에 유용한 웹앱 서비스를 설계하고 직접 배포까지 경험해봅니다.
+            </p>
+          </div>
+          <!-- 카드 2 -->
+          <div class="p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-300 group">
+            <div class="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-950 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <i data-lucide="brain-circuit" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-3">인공지능 & 데이터</h3>
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+              데이터를 정제하고, 기계학습 모델을 설계하여 실생활의 데이터를 예측하고 자동화하는 프로젝트를 연구합니다.
+            </p>
+          </div>
+          <!-- 카드 3 -->
+          <div class="p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-300 group">
+            <div class="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <i data-lucide="gamepad-2" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-3">알고리즘 & 게임 제작</h3>
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+              효율적인 문제 해결 메커니즘을 학습하고, 나만의 창의적인 스토리와 그래픽을 입힌 인디 게임을 개발합니다.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 프로젝트 쇼케이스 섹션 (인터렉티브 필터 적용) -->
+    <section id="projects" class="py-20 bg-slate-100/50 dark:bg-slate-900/30 border-t border-slate-100 dark:border-slate-900">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div>
+            <h2 class="text-3xl font-bold tracking-tight mb-3">부원 프로젝트 갤러리</h2>
+            <p class="text-slate-600 dark:text-slate-400">카테고리를 클릭해 원하는 프로젝트를 탐색해보세요.</p>
+          </div>
+          
+          <!-- 필터 탭 -->
+          <div class="flex flex-wrap gap-2" id="filter-container">
+            <button onclick="filterProjects('all')" class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-blue-600 text-white transition-colors">
+              전체보기
+            </button>
+            <button onclick="filterProjects('web')" class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+              웹 / 앱
+            </button>
+            <button onclick="filterProjects('ai')" class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+              인공지능
+            </button>
+            <button onclick="filterProjects('game')" class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+              게임
+            </button>
+          </div>
+        </div>
+
+        <!-- 프로젝트 그리드 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="project-grid">
+          <!-- JavaScript에서 동적으로 생성합니다 -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 인터렉티브 방명록 / 응원 섹션 -->
+    <section id="guestbook" class="py-20 border-t border-slate-100 dark:border-slate-900">
+      <div class="max-w-4xl mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold tracking-tight mb-3">부원들에게 한마디 남겨주세요!</h2>
+          <p class="text-slate-600 dark:text-slate-400">방문 흔적이나 피드백, 따뜻한 격려를 남기면 큰 힘이 됩니다. 😊</p>
+        </div>
+
+        <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-6 md:p-8 shadow-xl shadow-slate-100 dark:shadow-none mb-12">
+          <form id="guestbook-form" class="space-y-4" onsubmit="addComment(event)">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="comment-author" class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">작성자 닉네임</label>
+                <input type="text" id="comment-author" required placeholder="예: 코딩꿈나무" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all">
+              </div>
+              <div>
+                <label for="comment-role" class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">구분</label>
+                <select id="comment-role" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all">
+                  <option value="학생">동아리 부원 (학생)</option>
+                  <option value="선생님">선생님</option>
+                  <option value="외부방문자" selected>외부 방문자</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label for="comment-text" class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">내용</label>
+              <textarea id="comment-text" required rows="3" placeholder="프로젝트들이 너무 참신하고 대단해요! 파이팅!" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"></textarea>
+            </div>
+            <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-colors shadow-lg shadow-blue-500/10">
+              메시지 등록하기
+            </button>
+          </form>
+        </div>
+
+        <!-- 댓글 목록 -->
+        <div class="space-y-4" id="comment-list">
+          <!-- JavaScript에서 동적으로 방명록 리스트 렌더링 -->
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 푸터 -->
+  <footer class="bg-slate-100 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-12 transition-colors">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <div class="flex items-center justify-center space-x-2 mb-6">
+        <div class="w-6 h-6 rounded bg-blue-600 flex items-center justify-center text-white font-bold text-xs">💡</div>
+        <span class="font-bold text-lg text-slate-800 dark:text-slate-200">정보동아리 코딩 스페이스</span>
+      </div>
+      <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">
+        © 2026 정보동아리 프로젝트 쇼케이스. All rights reserved.
+      </p>
+      <p class="text-xs text-slate-400 dark:text-slate-500">
+        이 웹사이트는 순수 HTML, CSS, JavaScript로 인터렉티브하게 제작되었습니다.
+      </p>
+    </div>
+  </footer>
+
+  <!-- 프로젝트 상세 보기 모달 창 -->
+  <div id="project-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 hidden backdrop-blur-sm">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative shadow-2xl">
+      <!-- 닫기 버튼 -->
+      <button onclick="closeModal()" class="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+
+      <!-- 모달 콘텐츠 -->
+      <div id="modal-content">
+        <!-- JS에서 데이터가 채워집니다 -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 토스트 알림창 -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-4 py-3 rounded-xl shadow-xl flex items-center space-x-2 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400 dark:text-emerald-600"></i>
+    <span id="toast-message" class="text-sm font-medium">알림이 작동합니다.</span>
+  </div>
+
+  <script>
+    // ----------------------------------------
+    // 전역 상태 및 더미 데이터 선언
+    // ----------------------------------------
+    
+    // 프로젝트 데이터
+    const projectsData = [
+      {
+        id: 1,
+        title: "스마트 급식 알림 & 선호도 예측기",
+        category: "web",
+        categoryKR: "웹 / 앱",
+        author: "김지민 (부장)",
+        summary: "오늘의 급식 메뉴 정보를 실시간 파싱하고, 부원들이 남긴 평점을 분석해 다음 급식의 인기도를 예측하는 AI 탑재 웹 서비스입니다.",
+        description: "공공 데이터 포털의 급식 API를 연동하여 깔끔한 카드 레이아웃으로 식단을 보여줍니다. 또한 자체 평점 수집 알고리즘을 사용해 선호도가 높은 메뉴가 나오는 날은 모닝 푸시 알림을 제공하는 기능을 개발했습니다. 반응형 레이아웃 및 알림 센터 기능이 특징입니다.",
+        tags: ["HTML/CSS", "JavaScript", "Python API", "Tailwind"],
+        likes: 24,
+        liked: false,
+        icon: "utensils"
+      },
+      {
+        id: 2,
+        title: "2D 픽셀 생존 서바이벌: 코드 런",
+        category: "game",
+        categoryKR: "게임",
+        author: "이민우 (차장)",
+        summary: "다가오는 버그(Bug) 장애물들을 피해 살아남으며 클린 코드를 수집해 랭킹을 올리는 레트로 감성 아케이드 러닝 게임입니다.",
+        description: "HTML5 Canvas를 활용하여 순수 자바스크립트 엔진으로 구현된 서바이벌 장애물 피하기 게임입니다. 점프, 슬라이딩 조작이 가능하며 갈수록 빨라지는 장애물과 실시간 최고 점수 세이브 기능을 갖추고 있습니다.",
+        tags: ["HTML5 Canvas", "Vanilla JS", "Audio API"],
+        likes: 38,
+        liked: false,
+        icon: "gamepad-2"
+      },
+      {
+        id: 3,
+        title: "교내 빈 교실 자동 탐색 비서 AI",
+        category: "ai",
+        categoryKR: "인공지능",
+        author: "박서윤 (AI 파트장)",
+        summary: "각 교실의 시간표 데이터를 기반으로, 공강 시간 및 자율 학습이 가능한 빈 교실을 실시간으로 찾아 추천해주는 똑똑한 인공지능 웹봇입니다.",
+        description: "교과 교실제 운영으로 매번 비어있는 연구실이나 학습 공간을 찾기 어렵다는 문제에서 출발했습니다. 시간 정보와 요일 필터링, 그리고 유휴 전력 사용 상태 센서 더미 데이터를 비교하여 가장 조용하고 쾌적하게 쓸 수 있는 빈 교실을 최적 정렬해 제공합니다.",
+        tags: ["Node.js", "AI Prediction", "Responsive UI"],
+        likes: 19,
+        liked: false,
+        icon: "search-code"
+      },
+      {
+        id: 4,
+        title: "모두의 단어장 - 협업형 퀴즈 러닝",
+        category: "web",
+        categoryKR: "웹 / 앱",
+        author: "최다온 (풀스택 개발자)",
+        summary: "클래스 친구들과 실시간으로 단어 퀴즈 카드를 제작해 함께 풀고, 승률을 경쟁하며 내신 시험을 대비하는 실시간 교육용 플랫폼입니다.",
+        description: "사용자가 단어 덱을 만들어 방을 개설하면, 다른 유저들이 입장하여 초성 퀴즈 및 사지선다 퀴즈를 풀고 점수를 획득하는 멀티플레이 방식의 교육용 유틸리티 사이트입니다. 플래시카드 컴포넌트를 직접 디자인하여 인터랙션 요소를 높였습니다.",
+        tags: ["WebSocket", "Express", "Sass", "Animation"],
+        likes: 15,
+        liked: false,
+        icon: "book-open"
+      },
+      {
+        id: 5,
+        title: "손동작 인식 웹 브라우저 리모컨",
+        category: "ai",
+        categoryKR: "인공지능",
+        author: "정우진 (컴퓨터 비전 엔지니어)",
+        summary: "웹캠을 통해 손동작을 감지하여 마우스 없이도 웹페이지를 스크롤하고 탭을 넘길 수 있는 장애인 편의용 제스처 리모컨 웹입니다.",
+        description: "오픈소스 브라우저 내 인공지능 모델(MediaPipe)을 기반으로 동작하여 손가락 핀치 동작, 스와이프 동작을 매핑하여 가벼운 조작을 수행합니다. 마우스 사용이 불편한 사람들을 위한 배리어 프리(Barrier-Free) 아이디어를 실체화했습니다.",
+        tags: ["MediaPipe", "TensorFlow.js", "Webcam API"],
+        likes: 31,
+        liked: false,
+        icon: "hand"
+      }
+    ];
+
+    // 방명록 초기 데이터
+    let comments = [
+      { id: 1, author: "정보부장선생님", role: "선생님", text: "동아리 부원들이 지난 1년 동안 쏟은 열정이 눈에 선하네요. 다들 아주 훌륭한 수준의 프로젝트를 만들어내어 자랑스럽습니다!", date: "2026.05.28" },
+      { id: 2, author: "개발자지망생", role: "외부방문자", text: "스마트 급식 예측기 진짜 실용적이네요! 저희 학교에도 하나 있으면 좋겠어요. 디자인이 정말 예쁩니다.", date: "2026.05.29" }
+    ];
+
+    // ----------------------------------------
+    // 시스템 초기화
+    // ----------------------------------------
+    window.addEventListener('DOMContentLoaded', () => {
+      // 라이브러리 아이콘 렌더링
+      lucide.createIcons();
+      
+      // 다크모드 시스템 설정값 또는 이전 설정 확인
+      initTheme();
+      
+      // 프로젝트 카드 렌더링
+      renderProjects('all');
+      
+      // 방명록 렌더링
+      renderComments();
+      
+      // 모바일 메뉴 버튼 리스너
+      const mobileBtn = document.getElementById('mobile-menu-btn');
+      mobileBtn.addEventListener('click', toggleMobileMenu);
+
+      // 테마 토글 버튼 리스너
+      const themeBtn = document.getElementById('theme-toggle');
+      themeBtn.addEventListener('click', toggleTheme);
+    });
+
+    // ----------------------------------------
+    // 다크 모드 / 라이트 모드 제어 로직
+    // ----------------------------------------
+    function initTheme() {
+      // 로컬 스토리지에 저장되어 있거나, 시스템이 다크모드 상태인지 체크
+      const storedTheme = localStorage.getItem('theme');
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      
+      if (storedTheme === 'dark' || (!storedTheme && systemPrefersDark)) {
+        document.documentElement.classList.add('dark');
+        updateThemeUI(true);
+      } else {
+        document.documentElement.classList.remove('dark');
+        updateThemeUI(false);
+      }
+    }
+
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.contains('dark');
+      if (isDark) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+        updateThemeUI(false);
+        showToast("☀️ 라이트 모드로 전환되었습니다.");
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+        updateThemeUI(true);
+        showToast("🌙 다크 모드로 전환되었습니다.");
+      }
+    }
+
+    function updateThemeUI(isDark) {
+      const sunIcon = document.getElementById('theme-icon-sun');
+      const moonIcon = document.getElementById('theme-icon-moon');
+      
+      if (isDark) {
+        sunIcon.classList.remove('hidden');
+        moonIcon.classList.add('hidden');
+      } else {
+        sunIcon.classList.add('hidden');
+        moonIcon.classList.remove('hidden');
+      }
+    }
+
+    // ----------------------------------------
+    // 프로젝트 갤러리 렌더링 & 필터
+    // ----------------------------------------
+    function renderProjects(filter = 'all') {
+      const grid = document.getElementById('project-grid');
+      grid.innerHTML = '';
+
+      const filtered = filter === 'all' 
+        ? projectsData 
+        : projectsData.filter(p => p.category === filter);
+
+      filtered.forEach(project => {
+        // 아이콘 선택 매핑
+        let iconMarkup = '<i data-lucide="code" class="w-6 h-6"></i>';
+        if (project.icon === 'utensils') iconMarkup = '<i data-lucide="utensils" class="w-6 h-6"></i>';
+        if (project.icon === 'gamepad-2') iconMarkup = '<i data-lucide="gamepad-2" class="w-6 h-6"></i>';
+        if (project.icon === 'search-code') iconMarkup = '<i data-lucide="search" class="w-6 h-6"></i>';
+        if (project.icon === 'book-open') iconMarkup = '<i data-lucide="book-open" class="w-6 h-6"></i>';
+        if (project.icon === 'hand') iconMarkup = '<i data-lucide="hand" class="w-6 h-6"></i>';
+
+        const card = document.createElement('div');
+        card.className = "bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 hover:shadow-2xl dark:hover:shadow-blue-950/20 transition-all duration-300 flex flex-col justify-between overflow-hidden group";
+        
+        card.innerHTML = `
+          <div class="p-6">
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                ${project.categoryKR}
+              </span>
+              <div class="text-slate-400 dark:text-slate-500 p-2 bg-slate-50 dark:bg-slate-950 rounded-xl group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors">
+                ${iconMarkup}
+              </div>
+            </div>
+            
+            <h3 class="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors cursor-pointer" onclick="openModal(${project.id})">
+              ${project.title}
+            </h3>
+            
+            <p class="text-slate-500 dark:text-slate-400 text-sm mb-4 line-clamp-2">
+              ${project.summary}
+            </p>
+            
+            <div class="flex flex-wrap gap-1.5 mb-4">
+              ${project.tags.map(tag => `
+                <span class="text-[11px] font-medium px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400">
+                  #${tag}
+                </span>
+              `).join('')}
+            </div>
+          </div>
+          
+          <div class="px-6 py-4 border-t border-slate-50 dark:border-slate-800/50 bg-slate-50/50 dark:bg-slate-900/50 flex items-center justify-between">
+            <span class="text-xs text-slate-500 dark:text-slate-400">by ${project.author}</span>
+            
+            <button onclick="toggleLike(${project.id})" class="flex items-center gap-1 text-sm ${project.liked ? 'text-red-500 font-bold' : 'text-slate-400 dark:text-slate-500 hover:text-red-500'} transition-colors">
+              <i data-lucide="heart" class="w-4 h-4 ${project.liked ? 'fill-current' : ''}"></i>
+              <span>${project.likes}</span>
+            </button>
+          </div>
+        `;
+        
+        grid.appendChild(card);
+      });
+
+      // Lucide 아이콘 새로고침 적용
+      lucide.createIcons();
+    }
+
+    function filterProjects(category) {
+      // 활성화 버튼 스타일링 변경
+      const buttons = document.querySelectorAll('.filter-btn');
+      buttons.forEach(btn => {
+        btn.className = "filter-btn px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors";
+      });
+
+      // 클릭한 버튼 스타일 활성화
+      const activeBtn = event.currentTarget;
+      activeBtn.className = "filter-btn px-4 py-2 rounded-full text-sm font-medium bg-blue-600 text-white transition-colors";
+
+      renderProjects(category);
+    }
+
+    // 좋아요(하트) 토글 기능
+    function toggleLike(id) {
+      const p = projectsData.find(item => item.id === id);
+      if (!p) return;
+
+      if (p.liked) {
+        p.likes--;
+        p.liked = false;
+        showToast("🤍 좋아요가 취소되었습니다.");
+      } else {
+        p.likes++;
+        p.liked = true;
+        showToast("❤️ 프로젝트를 응원했습니다!");
+      }
+
+      // 현재 선택된 필터 탭 기준에 맞춰 갱신
+      const activeBtn = document.querySelector('.filter-btn.bg-blue-600');
+      // 텍스트 기반이나 상태로 파악
+      const activeCategory = activeBtn.textContent.trim() === "전체보기" ? "all" 
+                         : activeBtn.textContent.trim() === "웹 / 앱" ? "web"
+                         : activeBtn.textContent.trim() === "인공지능" ? "ai" : "game";
+      renderProjects(activeCategory);
+    }
+
+    // ----------------------------------------
+    // 상세 모달창 제어 로직
+    // ----------------------------------------
+    function openModal(id) {
+      const project = projectsData.find(item => item.id === id);
+      if (!project) return;
+
+      const modal = document.getElementById('project-modal');
+      const content = document.getElementById('modal-content');
+
+      content.innerHTML = `
+        <div class="mb-4">
+          <span class="inline-block text-xs font-semibold px-2.5 py-1 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 mb-3">
+            ${project.categoryKR}
+          </span>
+          <h3 class="text-2xl md:text-3xl font-extrabold mb-1">${project.title}</h3>
+          <p class="text-sm text-slate-500 dark:text-slate-400">기획 및 제작자: ${project.author}</p>
+        </div>
+
+        <hr class="border-slate-100 dark:border-slate-800 my-4" />
+
+        <div class="space-y-4">
+          <div>
+            <h4 class="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">프로젝트 한 줄 요약</h4>
+            <p class="text-slate-700 dark:text-slate-300 font-medium">${project.summary}</p>
+          </div>
+
+          <div>
+            <h4 class="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">상세 제작 소개</h4>
+            <p class="text-slate-600 dark:text-slate-300 leading-relaxed text-sm whitespace-pre-line">${project.description}</p>
+          </div>
+
+          <div>
+            <h4 class="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">사용 기술 및 언어</h4>
+            <div class="flex flex-wrap gap-2">
+              ${project.tags.map(tag => `
+                <span class="text-xs font-semibold px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                  ${tag}
+                </span>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <button onclick="toggleLike(${project.id}); closeModal();" class="px-5 py-2.5 bg-rose-50 dark:bg-rose-950/20 text-rose-600 hover:bg-rose-100 rounded-xl font-medium text-sm transition-all flex items-center gap-2">
+              <i data-lucide="heart" class="w-4 h-4 ${project.liked ? 'fill-current' : ''}"></i>
+              <span>응원 ${project.likes}</span>
+            </button>
+          </div>
+          <button onclick="closeModal()" class="px-5 py-2.5 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 text-slate-800 dark:text-slate-200 rounded-xl font-medium text-sm transition-all">
+            닫기
+          </button>
+        </div>
+      `;
+
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden'; // 뒷배경 스크롤 방지
+      lucide.createIcons();
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('project-modal');
+      modal.classList.add('hidden');
+      document.body.style.overflow = ''; // 스크롤 원복
+    }
+
+    // 모달 바깥부분 영역 터치/클릭 시 닫기
+    window.onclick = function(event) {
+      const modal = document.getElementById('project-modal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    }
+
+    // ----------------------------------------
+    // 방명록 로직
+    // ----------------------------------------
+    function renderComments() {
+      const list = document.getElementById('comment-list');
+      list.innerHTML = '';
+
+      comments.forEach(c => {
+        // 배지 구분에 따라 색 변경
+        let roleBadgeClass = "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300";
+        if (c.role === "선생님") {
+          roleBadgeClass = "bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300";
+        } else if (c.role === "학생") {
+          roleBadgeClass = "bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300";
+        }
+
+        const item = document.createElement('div');
+        item.className = "p-5 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl flex flex-col justify-between hover:shadow-md transition-shadow";
+        item.innerHTML = `
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-sm">${escapeHtml(c.author)}</span>
+              <span class="text-[11px] font-semibold px-2 py-0.5 rounded ${roleBadgeClass}">${c.role}</span>
+            </div>
+            <span class="text-xs text-slate-400 dark:text-slate-500">${c.date}</span>
+          </div>
+          <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">${escapeHtml(c.text)}</p>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    function addComment(event) {
+      event.preventDefault();
+      
+      const authorInput = document.getElementById('comment-author');
+      const roleInput = document.getElementById('comment-role');
+      const textInput = document.getElementById('comment-text');
+
+      const today = new Date();
+      const dateString = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
+
+      const newComment = {
+        id: comments.length + 1,
+        author: authorInput.value.trim(),
+        role: roleInput.value,
+        text: textInput.value.trim(),
+        date: dateString
+      };
+
+      // 목록 앞에 추가
+      comments.unshift(newComment);
+      
+      // 입력 폼 초기화
+      authorInput.value = '';
+      textInput.value = '';
+      
+      // 갱신 및 메시지
+      renderComments();
+      showToast("📝 한마디가 등록되었습니다! 고맙습니다.");
+    }
+
+    // XSS 방지를 위한 텍스트 치환 함수
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // ----------------------------------------
+    // 공통 유틸리티 기능들
+    // ----------------------------------------
+    
+    // 모바일 햄버거 메뉴 켜기/끄기
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    // 토스트 팝업 띄우기
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const msgSpan = document.getElementById('toast-message');
+      
+      msgSpan.textContent = message;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 2500);
+    }
+
+    // 네비게이션용 스크롤 보조
+    function scrollToSection(id) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  </script>
+</body>
+</html>
